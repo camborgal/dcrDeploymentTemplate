@@ -62,7 +62,7 @@ def parseTableDetails(base_url,path,table):
         # Skip any field names that start with '_' (internal Sentinel fields)
         # Grab the first two td elements within the row, create a dict, and append that dict to table_dict array
         for row in rows[1:]:
-            if not(row.text.strip().startswith('_')):
+            if not(row.text.strip().startswith('_') or row.text.strip().startswith('TenantId')):
                 cells = row.find_all('td')[:-1]
                 dict_entry = {'name': cells[0].text, 'type': cells[1].text}
                 table_dict.append(dict_entry)

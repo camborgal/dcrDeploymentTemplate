@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import json
 import sys
 import os
+from copy import deepcopy
 
 # Base URL to MSFT Docs
 base_url = "https://learn.microsoft.com/"
@@ -123,9 +124,9 @@ def dataFlow(tableName):
 
 # Build the DCR Deployment Template
 def buildDCR(tablesForDCR):
-    
+
     # Start the DCR with the template
-    dcr = dcrTemplate
+    dcr = deepcopy(dcrTemplate)
 
     # Create temporary lowercase copy of supportedTables for case-insensitve check
     lowerSupportedTables = [item.lower() for item in supportedTables]
@@ -255,16 +256,15 @@ def userInput():
             # Return selectedTables for DCR buildout, unless empty
             elif userInput == 'd':
                 if selectedTables:
-                    writeDCR(buildDCR(selectedTables))
+                    writeDCR(buildDCR(selectedTables),selectedTables)
                     print('\nDCR Deployment template created\n')
                 else:
                     print("No tables selected!\n")
             
             elif userInput == 'e':
                 for table in supportedTables:
-                    selectedTables.append(table)
-                    writeDCR(buildDCR(selectedTables))
-                    selectedTables.clear()
+                    writeDCR(buildDCR([table]),[table])
+                    #writeDCR(buildDCR(table))
                 print('\nDCR Deployment Template created for each supported table\n')
                 return
 
@@ -284,11 +284,12 @@ def userInput():
             sys.exit()
 
 # Write DCR Deployment Templates to file
-def writeDCR(dcr):
-    
+def writeDCR(dcr,tableArray):
+   
     path = 'templates/'
     os.makedirs(path, exist_ok=True)
-    filename = 'dcr-' + selectedTables[0] + '-' + str(len(selectedTables)) + '.json'
+
+    filename = 'dcr-' + tableArray[0] + '-' + str(len(tableArray)) + '.json'
     with open(path + filename, 'w') as f:
         f.write(dcr)
 
@@ -296,7 +297,7 @@ if __name__ == '__main__':
 
     supportedTables = get_supported_tables(base_url + supportedTablesPath, tablesPath)
     dcrTemplate = loadDCRTemplate(dcrTemplateURL)
-    
+
     userInput()
 
     

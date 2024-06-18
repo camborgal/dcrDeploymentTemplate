@@ -289,7 +289,11 @@ def writeDCR(dcr,tableArray):
     path = 'templates/'
     os.makedirs(path, exist_ok=True)
 
-    filename = 'dcr-' + tableArray[0] + '-' + str(len(tableArray)) + '.json'
+    if len(tableArray) > 1:
+        filename = 'dcr-Combined-' + str(len(tableArray)) + '.json'
+    else:
+        filename = 'dcr-' + tableArray[0] + '-' + str(len(tableArray)) + '.json'
+    
     with open(path + filename, 'w') as f:
         f.write(dcr)
 

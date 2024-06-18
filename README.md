@@ -1,8 +1,12 @@
 # dcrDeploymentTemplate
-# Author: Cameron Borgal
+Author: Cameron Borgal
+Date: 6/18/2024
+Version: 0.1
+
 
 Welcome to the Azure DCR Deployment Template Builder
-The purpose of this is to write deployment templates for Azure DCRs containing whatever Table(s) you select
+
+The motivation behind the project is to enable quick DCR deployments for Cribl Stream to send data to the desired Sentinel/Log Analytic tables (that are suported by the Azure Log Ingestion API).
 
 Things to note:
 1. 'Tables' refer to the list of tables supported by the Log Ingestion API only. (https://learn.microsoft.com/en-us/azure/azure-monitor/logs/logs-ingestion-api-overview#supported-tables)

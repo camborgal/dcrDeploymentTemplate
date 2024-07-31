@@ -1,10 +1,15 @@
 # dcrDeploymentTemplate
 Author: Cameron Borgal
 
-Date: 6/18/2024
+Version: 0.2
+Date: 7/31/2024
+
+Updated changes made to the SecurityEvent table.
+Fixed an issue where if the table schema page doesn't contain the actual schema table, the script catches the error and skips the table
+
 
 Version: 0.1
-
+Date: 6/18/2024
 
 Welcome to the Azure DCR Deployment Template Builder
 

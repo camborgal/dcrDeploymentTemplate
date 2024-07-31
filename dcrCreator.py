@@ -56,18 +56,20 @@ def parseTableDetails(base_url,path,table):
         # Parse the HTML request, grab the last table on the page 
         # This should be the required fields and types
         # Then, grab the rows within the table
-        rows = BeautifulSoup(response.content, 'html.parser').find_all('table')[-1].find_all('tr')
-
-        # Iterate through all the rows skipping the first row (header)
-        # Skip any field names that start with '_' (internal Sentinel fields)
-        # Grab the first two td elements within the row, create a dict, and append that dict to table_dict array
-        for row in rows[1:]:
-            if not(row.text.strip().startswith('_') or row.text.strip().startswith('TenantId')):
-                cells = row.find_all('td')[:-1]
-                dict_entry = {'name': cells[0].text, 'type': cells[1].text}
-                table_dict.append(dict_entry)
+        try:
+            rows = BeautifulSoup(response.content, 'html.parser').find_all('table')[-1].find_all('tr')
+            # Iterate through all the rows skipping the first row (header)
+            # Skip any field names that start with '_' (internal Sentinel fields)
+            # Grab the first two td elements within the row, create a dict, and append that dict to table_dict array
+            for row in rows[1:]:
+                if not(row.text.strip().startswith('_') or row.text.strip().startswith('TenantId')):
+                    cells = row.find_all('td')[:-1]
+                    dict_entry = {'name': cells[0].text, 'type': cells[1].text}
+                    table_dict.append(dict_entry)
             
-        return table_dict
+            return table_dict
+        except IndexError:
+            return None
     
     else:
         return None

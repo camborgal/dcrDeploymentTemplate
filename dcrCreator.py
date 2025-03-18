@@ -64,6 +64,11 @@ def parseTableDetails(base_url,path,table):
             for row in rows[1:]:
                 if not(row.text.strip().startswith('_') or row.text.strip().startswith('TenantId')):
                     cells = row.find_all('td')[:-1]
+
+                    # Replace value "bool" with required value "boolean"
+                    if cells[1].text == "bool":
+                        cells[1].string = "boolean"
+
                     dict_entry = {'name': cells[0].text, 'type': cells[1].text}
                     table_dict.append(dict_entry)
             
